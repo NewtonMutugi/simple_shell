@@ -30,3 +30,35 @@ int main(int ac, char **argv)
 			perror("Error:");
 			continue;
 		}
+		args = malloc((tkn_num + 1) * sizeof(char *));
+		if (args == NULL)
+		{
+			perror("Error:");
+			free(cmd_cpy);
+			continue;
+		}
+		token = strtok(cmd_cpy, delim);
+		while (token != NULL)
+		{
+			args[i] = strdup(token);
+			if (args[i] == NULL)
+			{
+				perror("Error:");
+				free(args);
+				free(cmd_cpy);
+				continue;
+			}
+			i++;
+			token = strtok(NULL, delim);
+		}
+		args[i] = NULL;
+		execmd(args);
+		for (i = 0; i < tkn_num; i++)
+		{
+			free(args[i]);
+		}
+		free(args);
+		free(cmd_cpy);
+	}
+	return (0);
+}
