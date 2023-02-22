@@ -13,7 +13,8 @@ int execmd(char **argv)
 	char *cmd, *actual_cmd;
 	pid_t pid;
 	int status;
-
+	static char *currentDirectory;
+	
 	cmd = argv[0];
 	if (strcmp(cmd, "exit") == 0)
 	{

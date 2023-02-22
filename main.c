@@ -1,9 +1,5 @@
 #include "main.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #define DELIM " \t\r\n\a"
 
 /**
@@ -15,7 +11,10 @@
 
 char **tokenize(char *input)
 {
-	char *copy = strdup(input);
+	char *copy, *token, **args;
+	int arg_count, i;
+
+	copy = strdup(input);
 
 	if (copy == NULL)
 	{
@@ -23,16 +22,15 @@ char **tokenize(char *input)
 		return (NULL);
 	}
 
-	int arg_count = 0;
-	char *token = strtok(copy, DELIM);
+	arg_count = 0;
+	token = strtok(copy, DELIM);
 
 	while (token != NULL)
 	{
 		arg_count++;
 		token = strtok(NULL, DELIM);
 	}
-
-	char **args = calloc(arg_count + 1, sizeof(char *));
+	args = calloc(arg_count + 1, sizeof(char *));
 
 	if (args == NULL)
 	{
@@ -40,9 +38,7 @@ char **tokenize(char *input)
 		free(copy);
 		return (NULL);
 	}
-
-	int i = 0;
-
+	i = 0;
 	token = strtok(input, DELIM);
 	while (token != NULL)
 	{
@@ -50,7 +46,6 @@ char **tokenize(char *input)
 		token = strtok(NULL, DELIM);
 	}
 	args[i] = NULL;
-
 	free(copy);
 
 	return (args);
@@ -64,18 +59,16 @@ char **tokenize(char *input)
  * Return: 0 for success
  */
 
-int main(int ac, char **argv)
+int main()
 {
-	char *cmdptr, *cmd_cpy;
+	char *cmdptr, **args;
 	size_t cmdlen = 0;
 	ssize_t getline_result;
-	int tkn_num = 0;
-	char *token;
 	int i;
 
 	while (1)
 	{
-		printf("%s", "cisfun $ ");
+		printf("%s", "$ ");
 		getline_result = getline(&cmdptr, &cmdlen, stdin);
 		if (getline_result == -1)
 		{
@@ -83,7 +76,7 @@ int main(int ac, char **argv)
 			return (-1);
 		}
 
-		char **args = tokenize(cmdptr);
+		args = tokenize(cmdptr);
 
 		if (args == NULL)
 		{
