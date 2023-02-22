@@ -10,10 +10,10 @@
 
 int main(int ac, char **argv)
 {
-	char *prompt = "cisfun $ ", *cmdptr, *token, *cmd_cpy, **args;
+	char *prompt = "cisfun $ ";
+	char *cmdptr = NULL;
 	size_t cmdlen = 0;
 	ssize_t getline_result;
-	int tkn_num = 0, i = 0;
 
 	while (1)
 	{
@@ -24,41 +24,14 @@ int main(int ac, char **argv)
 			printf("Exit..\n");
 			return (-1);
 		}
-		cmd_cpy = strdup(cmdptr);
+
+		char *cmd_cpy = strdup(cmdptr);
 		if (cmd_cpy == NULL)
 		{
 			perror("Error:");
 			continue;
 		}
-		args = malloc((tkn_num + 1) * sizeof(char *));
-		if (args == NULL)
-		{
-			perror("Error:");
-			free(cmd_cpy);
-			continue;
-		}
-		token = strtok(cmd_cpy, delim);
+
+		char *token = strtok(cmd_cpy, delim);
+		int arg_count = 0;
 		while (token != NULL)
-		{
-			args[i] = strdup(token);
-			if (args[i] == NULL)
-			{
-				perror("Error:");
-				free(args);
-				free(cmd_cpy);
-				continue;
-			}
-			i++;
-			token = strtok(NULL, delim);
-		}
-		args[i] = NULL;
-		execmd(args);
-		for (i = 0; i < tkn_num; i++)
-		{
-			free(args[i]);
-		}
-		free(args);
-		free(cmd_cpy);
-	}
-	return (0);
-}
