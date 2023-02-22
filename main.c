@@ -35,3 +35,40 @@ int main(int ac, char **argv)
 		char *token = strtok(cmd_cpy, delim);
 		int arg_count = 0;
 		while (token != NULL)
+		{
+			arg_count++;
+			token = strtok(NULL, delim);
+		}
+
+		char **args = calloc(arg_count + 1, sizeof(char *));
+		if (args == NULL)
+		{
+			perror("Error:");
+			free(cmd_cpy);
+			continue;
+		}
+
+		token = strtok(cmdptr, delim);
+		int i = 0;
+		while (token != NULL)
+		{
+			args[i++] = strdup(token);
+			token = strtok(NULL, delim);
+		}
+
+		args[i] = NULL;
+
+		execmd(args);
+
+		for (i = 0; i < arg_count; i++)
+		{
+			free(args[i]);
+		}
+
+		free(args);
+		free(cmd_cpy);
+	}
+
+	free(cmdptr);
+	return (0);
+}
