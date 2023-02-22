@@ -8,9 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define delim " \n"
+#define delim " \n\t"
 static char *currentDirectory;
-
 
 int execmd(char **argc);
 char *location(char *command);
