@@ -1,24 +1,32 @@
 #include "main.h"
 
 /**
- * main - program entry point
- * @ac: command count
- * @av: argumrnt vectors
- * Return: int
+ * main - code entry point
+ *
+ * @ac: number of arguments
+ * @argv: array of arguments
+ * Return: 0 for success
  */
 
-int main(int ac, char **av)
+int main(int ac, char **argv)
 {
+	char *prompt = "cisfun $ ", *cmdptr, *token, *cmd_cpy, **args;
+	size_t cmdlen = 0;
+	ssize_t getline_result;
+	int tkn_num = 0, i = 0;
+
 	while (1)
 	{
 		printf("%s", prompt);
-		read = getline(&command, &len, stdin);
-
-		if (read == -1)
+		getline_result = getline(&cmdptr, &cmdlen, stdin);
+		if (getline_result == -1)
 		{
-			perror("Error: ");
-			return (1);
+			printf("Exit..\n");
+			return (-1);
 		}
-	}
-	return (0);
-}
+		cmd_cpy = strdup(cmdptr);
+		if (cmd_cpy == NULL)
+		{
+			perror("Error:");
+			continue;
+		}
