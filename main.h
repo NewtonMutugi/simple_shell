@@ -7,3 +7,12 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define delim " \n"
+static char *currentDirectory;
+
+
+int execmd(char **argc);
+char *location(char *command);
+
+#endif
