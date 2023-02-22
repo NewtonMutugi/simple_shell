@@ -59,7 +59,7 @@ char **tokenize(char *input)
  * Return: 0 for success
  */
 
-int main()
+int main(int ac, char **argv)
 {
 	char *cmdptr, **args;
 	size_t cmdlen = 0;
@@ -96,4 +96,6 @@ int main()
 		cmdlen = 0;
 	}
 	return (0);
+	ac++;
+	argv[i] = "l";
 }
