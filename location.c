@@ -23,3 +23,26 @@ char *location(char *command)
 	{
 		return (NULL);
 	}
+
+	dir = strtok(path, ":");
+	while (dir != NULL)
+	{
+		len = strlen(dir) + 1 + strlen(command) + 1;
+		path_cmd = malloc(len);
+		if (path_cmd == NULL)
+		{
+			free(path);
+			return (NULL);
+		}
+		snprintf(path_cmd, len, "%s/%s", dir, command);
+		if (access(path_cmd, X_OK) == 0)
+		{
+			free(path);
+			return (path_cmd);
+		}
+		free(path_cmd);
+		dir = strtok(NULL, ":");
+	}
+	free(path);
+	return (NULL);
+}
